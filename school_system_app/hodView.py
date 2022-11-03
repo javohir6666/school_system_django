@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
@@ -8,8 +9,9 @@ def hod_View(request):
     return render(request, "hod_templates/home_content.html")
 
 def add_student(request):
-    course = Courses.objects.all
-    return render(request, "hod_templates/add_student.html")
+    courses = Courses.objects.all
+    response ={'courses': courses}
+    return render(request, "hod_templates/add_student.html", response)
 
 def add_staff(request):
     return render(request, "hod_templates/add_staff.html")
@@ -69,16 +71,10 @@ def add_student_save(request):
         password = request.POST.get("password")
         username = request.POST.get("username")
         address = request.POST.get("address")
-        course_id = request.POST.get("course")
         gender = request.POST.get("gender")
         session_start = request.POST.get("session_start")
         session_end = request.POST.get("session_end")
-        user.students.gender = gender
-        user.students.course_id = course_obj
-        course_obj = Courses.objects.get(id =course_id)
-        user.students.session_start_year=session_start
-        user.students.session_end_year=session_end
-        user.students.profile_pic=""
+        course_id = request.POST.get("course")
         try:
             user = CustomUser.objects.create_user(
                 username=username,
@@ -88,10 +84,14 @@ def add_student_save(request):
                 email=email,
                 user_type=3 
             )
+            user.students.gender = gender
+            user.students.session_start_year=session_start
+            user.students.session_end_year=session_end 
+            user.students.profile_pic=""
             user.students.address = address
             user.save()
-            messages.success(request, "Successfully added Staff")
-            return HttpResponseRedirect("/add_staff")
+            messages.success(request, "Successfully added Student")
+            return HttpResponseRedirect("/add_student")
         except:
-            messages.error(request, "Failed to add Staff")
-            return HttpResponseRedirect("/add_staff")
+            messages.error(request, "Failed to add Student")
+            return HttpResponseRedirect("/add_student")
