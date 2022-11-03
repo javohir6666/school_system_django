@@ -21,7 +21,7 @@ from school_system_app import views, hodView
 urlpatterns = [
     path('demo/', views.showDemoPage, name='demo'),
     path('admin_home', hodView.hod_View, name='hod_view'),
-    path('add_staff', hodView.add_staff, name='hod_view'),
+    path('add_staff', hodView.add_staff),
     path('', views.ShowLoginPage, name="home"),
     path('get_user_details', views.get_user_details),
     path('logout_user', views.logout_user),
