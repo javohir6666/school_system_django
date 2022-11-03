@@ -1,5 +1,5 @@
 {% extends 'hod_templates/base_template.html' %} {% block page_title %}Add
-Staff{% endblock page_title %} {% load static %} {% block main_content %}
+Student{% endblock page_title %} {% load static %} {% block main_content %}
 <section class="content">
   <div class="container-fluid">
     <div class="row">
@@ -7,11 +7,11 @@ Staff{% endblock page_title %} {% load static %} {% block main_content %}
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Add Staff</h3>
+                <h3 class="card-title">Add Student</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="/add_staff_save" method="POST">
+              <form action="/add_student_save" method="POST">
                   {% csrf_token %}
                 <div class="card-body">
                   <div class="form-group">
@@ -39,6 +39,32 @@ Staff{% endblock page_title %} {% load static %} {% block main_content %}
                     <input type="text" class="form-control" name="address" placeholder="Address">
                   </div>
                   <div class="form-group">
+                    <label>Course</label>
+                    <select class="form-control" name="course">
+                      {% for course in courses %}
+                      <option value="{{course.id}}">{{ course.course_name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <label>Gender</label>
+                  <select class="form-control" name="gender">
+                    <option>Male</option>
+                    <option>Female</option>
+                  </select>
+                  <div class="row">
+                    <div class="col-6">
+                    <div class="form-group">
+                      <label>Session start year</label>
+                    <input class="form-control" type="date" placeholder="Session start year.." name="session_start">
+                  </div>
+                </div>
+                  <div class="col-6">
+                  <div class="form-group">
+                    <label>Session end year</label>
+                  <input class="form-control" type="date" placeholder="Session end year.." name="session_end">
+                </div>
+                  </div></div>
+                  <div class="form-group">
                     {% if messages %}
                       {% for message in messages %}
                       {% if message.tags == 'error' %}
@@ -54,7 +80,7 @@ Staff{% endblock page_title %} {% load static %} {% block main_content %}
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary btn-block">Add Staff</button>
+                  <button type="submit" class="btn btn-primary btn-block">Add Student</button>
                 </div>
               </form>
             </div>
